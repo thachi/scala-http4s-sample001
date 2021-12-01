@@ -5,6 +5,7 @@ val LogbackVersion = "1.2.6"
 val MunitCatsEffectVersion = "1.0.6"
 
 lazy val root = (project in file("."))
+  .enablePlugins(NativeImagePlugin)
   .settings(
     organization := "com.example",
     name := "scala-http4s-sample001",
@@ -18,10 +19,12 @@ lazy val root = (project in file("."))
       "io.circe"        %% "circe-generic"       % CirceVersion,
       "org.scalameta"   %% "munit"               % MunitVersion           % Test,
       "org.typelevel"   %% "munit-cats-effect-3" % MunitCatsEffectVersion % Test,
-      "ch.qos.logback"  %  "logback-classic"     % LogbackVersion,
-      "org.scalameta"   %% "svm-subs"            % "20.2.0"
+      "ch.qos.logback"  %  "logback-classic"     % LogbackVersion
     ),
     addCompilerPlugin("org.typelevel" %% "kind-projector"     % "0.13.0" cross CrossVersion.full),
     addCompilerPlugin("com.olegpy"    %% "better-monadic-for" % "0.3.1"),
-    testFrameworks += new TestFramework("munit.Framework")
+    testFrameworks += new TestFramework("munit.Framework"),
+    Compile / mainClass := Some("com.example.scalahttp4ssample001.Main"),
+    nativeImageJvm := "graalvm-java11",
+    nativeImageOptions ++= List("--no-fallback", "--allow-incomplete-classpath")
   )
