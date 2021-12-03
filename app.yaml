@@ -1,0 +1,2 @@
+runtime: java11
+entrypoint: ./scala-http4s-sample001
